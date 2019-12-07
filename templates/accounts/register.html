@@ -1,0 +1,24 @@
+{% extends 'base.html'%} 
+{% load static%}
+{% block content %}
+<head>
+        <link rel="stylesheet"  href="{% static 'css/reg.css'%}">
+</head>
+<div class="form-style-2" style="margin-left: 500px;">
+    <!-- Alerts-->
+    {% include 'partials/_alerts.html' %}
+        <div class="form-style-2-heading">Register Your Self</div>
+        <form action="{% url 'register'%}" method="post">
+            {% csrf_token%}
+        <label><span>First Name <span class="required">*</span></span><input type="text" class="input-field" name="first_name" placeholder="Enter First Name" /></label>
+        <label><span>Last Name <span class="required">*</span></span><input type="text" class="input-field" name="last_name"  placeholder="Enter Last Name" /></label>
+        <label><span>Email <span class="required">*</span></span><input type="text" class="input-field" name="email"  placeholder="Enter Your Email"/></label>
+        <label><span>Username <span class="required">*</span></span><input type="text" class="input-field" name="username"  placeholder="Enter User Name"/></label>
+        <label><span>Password <span class="required">*</span></span><input type="password" class="input-field" name="password" placeholder="Enter Password"/></label>
+        <label><span>Confirm Password <span class="required">*</span></span><input type="password" class="input-field" name="password2"  placeholder="Enter Confirm Password"/></label>
+    
+        <br>    
+        <label style="margin-left: 200px;"><span> </span><input type="submit" value="Submit" /></label>
+        </form>
+</div>
+{% endblock %}

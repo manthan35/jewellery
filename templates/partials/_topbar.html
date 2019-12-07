@@ -1,0 +1,44 @@
+{% load cart_template_tags %}
+<header id="header">
+    <div class="container">
+        <a href="{% url 'index' %}" id="logo" title="Diana’s jewelry">Diana’s jewelry</a>
+        <div class="right-links">
+            <ul>
+                {% if user.is_authenticated %}
+                    <li>WELCOME {{user.first_name}}</li>
+                    <li><a href="{% url 'cart'%}"><span class="ico-products"></span>{{ request.user| cart_item_count}} products, ${{ request.user| cart_price_sum}}</a></li>
+                    <li>
+                            <a href="javascript:{document.getElementById('logout').submit()}">
+                                 Logout
+                            </a>
+                            <form action="{% url 'logout' %}" method="POST" id="logout">
+                                {% csrf_token %}
+                                <input type="hidden">
+                            </form>
+                        </li>
+                {% else %}  
+                    <li><a href="{% url 'login'%}">Sign In</a></li>
+                    <li><a href="{% url 'register'%}">Register</a></li>
+                {% endif %}
+                
+            </ul>
+        </div>
+    </div>
+    <!-- / container -->
+</header>
+<!-- / header -->
+
+<nav id="menu">
+    <div class="container">
+        <div class="trigger"></div>
+        <ul>
+            <li><a href="{% url 'products'%}">New collection</a></li>
+            <li><a href="{% url 'necklaces'%}">necklaces</a></li>
+            <li><a href="{% url 'earrings'%}">earrings</a></li>
+            <li><a href="{% url 'rings'%}">Rings</a></li>
+            <li><a href="{% url 'ques'%}">FAQs</a></li>
+        </ul>
+    </div>
+    <!-- / container -->
+</nav>
+<!-- / navigation -->

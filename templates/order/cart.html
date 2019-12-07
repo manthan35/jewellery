@@ -1,0 +1,75 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load cart_template_tags %}
+{% block content %}
+
+<div id="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li>Cart</li>
+        </ul>
+    </div>
+    <!-- / container -->
+</div>
+<!-- / body -->
+
+<div id="body">
+    <div class="container">
+        <div id="content" class="full">
+            <!--Alerts-->
+            {% include 'partials/_alerts.html'%}
+            {% if object.items.all %}
+                <div class="cart-table">
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th class="items">Items</th>
+                            <th class="price">Price</th>
+                            <th class="qnt">Quantity</th>
+                            <th class="total">Total</th>
+                            <th class="delete"></th>
+                        </tr>
+                        {% for order_item in object.items.all%}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td class="items">
+                                <div class="image">
+                                    <img src="{{ order_item.item.photo.url}}" alt="">
+                                </div>
+                                <h3><a href="{% url 'product' order_item.item.id%}">{{ order_item.item.name}}</a></h3>
+                                <p>{{ order_item.item.description }}</p>
+                            </td>
+                            <td class="price">${{ order_item.item.price }}</td>
+                            <td class="qnt" align="center">
+                                &nbsp;<a href="{% url 'remove-singal-item-from-cart' order_item.item.id %}"><img src="{% static 'images/minus.jpg '%}" alt="minus"></a><br>
+                                     {{ order_item.quantity}}<br>
+                                    <a href="{% url 'add-to-cart' order_item.item.id %}"><img src="{% static 'images/plus.png '%}" alt="plus"></a>
+                            </td>
+                            <td class="total">${{ order_item.get_item_total_price}}</td>
+                            <td class="delete"><a href="{% url 'remove-from-cart' order_item.item.id %}" class="ico-del"></a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                
+
+                <div class="total-count">
+                    <h4>Subtotal: ${{ request.user| cart_price_sum}}</h4>
+                    <p>+shippment: $30.00</p>
+                    <h3>Total to pay: <strong>${{ request.user| get_final_total}}</strong></h3>
+                    <a href="{% url 'products'%}" class="btn-grey">Continue Shooping</a>
+                    <a href="{% url 'checkout' %}" class="btn-grey">Finalize and pay</a>
+                </div>
+            {% else %}
+            <div class="text" align="center">
+                    <h1>Your Cart is Empty </h1>
+                </div>
+            {% endif %}
+        </div>
+        <!-- / content -->
+    </div>
+    <!-- / container -->
+</div>
+<!-- / body -->
+{% endblock %}

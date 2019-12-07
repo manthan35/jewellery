@@ -1,0 +1,126 @@
+{% extends 'base.html' %} {% block content %}
+
+<div id="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li>Products</li>
+        </ul>
+    </div>
+    <!-- / container -->
+</div>
+<!-- / body -->
+
+<div id="body">
+    <div class="container">
+            <div class="pagination">
+                    {% if products.has_other_pages %}
+                        <ul>
+                            {% if products.has_previous %}
+                                <li>
+                                    <a href="?page={{products.previous_page_number}}"><span class="ico-prev"></span></a>
+                                </li>
+                            {% else %}
+                            
+                            {% endif %}
+                            {% for i in products.paginator.page_range %}
+                              {% if products.number == i %}
+                                <li class="active">
+                                  <a>{{i}}</a>
+                                </li>
+                              {% else %}
+                                  <li>
+                                    <a href="?page={{i}}">{{i}}</a>
+                                  </li>    
+                              {% endif %}
+                          {% endfor %}
+                          {% if products.has_next %}
+                            <li>
+                                <a href="?page={{products.next_page_number}}"><span class="ico-next"></span></a>
+                            </li>
+                          {% else %}
+                              
+                          {% endif %}
+                        </ul>
+                    {% endif%}
+                </div>
+        <div class="products-wrap">
+            <form action="{% url 'products'%}" method='post'>
+                {% csrf_token%}
+             <aside id="sidebar">
+                <div class="widget">
+                    <h3>Sort by:</h3>
+                    <fieldset>
+                       <!--<input checked type="checkbox">
+                        <label>Date</label> -->
+                        <input type="checkbox" name="filter" value="price">
+                        <label>Price</label>
+                    </fieldset>
+                </div>
+                <div class="widget">
+                    <h3>Price range:</h3>
+                    <fieldset>
+                        <div id="price-range"></div>
+                    </fieldset>
+                </div>
+                <div><br>
+                    <input class="btn-grey"type="submit" value="Apply" style="padding: 0px 50px 50px 50px;">
+                </div>
+            </aside>
+            </form>
+            <div id="content">
+                <section class="products">
+                    {% if products %}
+                        {% for product in products %}
+                            <article>
+                                <a href="{% url 'product' product.id %}"><img src="{{ product.photo.url }}" alt=""></a>
+                                <h3><a href="{% url 'product' product.id %}">{{ product.name }}</a></h3>
+                                <h4><a href="{% url 'product' product.id %}">${{ product.price}}</a></h4>
+                                <a href="{% url 'add-to-cart' product.id %}" class="btn-add">Add to cart</a>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                            <div class="text" align="center">
+                                <h1>No Items Available</h1>
+                            </div>
+                    {% endif %}
+                </section>
+            </div>
+            <!-- / content -->
+        </div>
+        <div class="pagination">
+            {% if products.has_other_pages %}
+                <ul>
+                    {% if products.has_previous %}
+                        <li>
+                            <a href="?page={{products.previous_page_number}}"><span class="ico-prev"></span></a>
+                        </li>
+                    {% else %}
+                    
+                    {% endif %}
+                    {% for i in products.paginator.page_range %}
+                      {% if products.number == i %}
+                        <li class="active">
+                          <a>{{i}}</a>
+                        </li>
+                      {% else %}
+                          <li>
+                            <a href="?page={{i}}">{{i}}</a>
+                          </li>    
+                      {% endif %}
+                  {% endfor %}
+                  {% if products.has_next %}
+                    <li>
+                        <a href="?page={{products.next_page_number}}"><span class="ico-next"></span></a>
+                    </li>
+                  {% else %}
+                      
+                  {% endif %}
+                </ul>
+            {% endif%}
+        </div>
+    </div>
+    <!-- / container -->
+</div>
+<!-- / body -->
+{% endblock %}

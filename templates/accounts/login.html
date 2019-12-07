@@ -1,0 +1,19 @@
+{% extends 'base.html'%} 
+{% load static%}
+{% block content %}
+<head>
+        <link rel="stylesheet"  href="{% static 'css/reg.css'%}">
+</head>
+<div class="form-style-2" style="margin-left: 500px;">
+    <!-- Alerts-->
+    {% include 'partials/_alerts.html' %}
+        <div class="form-style-2-heading">Login</div>
+        <form action="{% url 'login'%}" method="POST">
+            {% csrf_token %}
+        <label><span>Username <span class="required">*</span></span><input type="text" class="input-field" name="username"  placeholder="Enter  Username" /></label>
+        <label><span>Password <span class="required">*</span></span><input type="password" class="input-field" name="password"  placeholder="Enter Password"/></label>
+        <br>    
+        <label style="margin-left: 200px;"><span> </span><input type="submit" value="Submit" /></label>
+        </form>
+</div>
+{% endblock %}

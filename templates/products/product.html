@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% block content%}
+<div id="breadcrumbs">
+		<div class="container">
+			<ul>
+                <li><a href="{% url 'index'%}">Home</a></li>
+                <li><a href="{% url 'products'%}">Products</a></li>
+				<li>{{ product.name }}</li>
+			</ul>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- / body -->
+
+	<div id="body">
+		<div class="container">
+			<div id="content" class="full">
+				<div class="product">
+					<div class="image">
+						<img src="{{ product.photo.url}}" alt="">
+					</div>
+					<div class="details">
+						<!-- Alerts-->
+							<div style="background-color:skyblue;color:white;">
+								{% include 'partials/_alerts.html' %}
+							</div>
+						<h1>{{ product.name }}</h1>
+						<h4>${{ product.price }}</h4>
+						<div class="entry">
+							<p>Product Type: {{product.type }}</p>
+							<div class="tabs">
+								<div class="nav">
+									<ul>
+										<li class="active"><a href="#desc">Description</a></li>
+										<li><a href="#spec">Specification</a></li>
+										<li><a href="#ret">Returns</a></li>
+									</ul>
+								</div>
+								<div class="tab-content active" id="desc">
+									<p>{{ product.description }}</p>
+								</div>
+								<div class="tab-content" id="spec">
+									<p>{{ product.specification }}</p>
+								</div>
+								<div class="tab-content" id="ret">
+									<p>Product is eligible for return with in {{ product.returns }} Days.</p>
+								</div>
+							</div>
+						</div>
+						<div class="actions">
+							<a href="{% url 'remove-from-cart' product.id %}" class="btn-grey">Remove From cart</a>
+							<a href="{% url 'add-to-cart' product.id %}" class="btn-grey" style="margin-right: 60px;">Add to cart</a>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+			<!-- / content -->
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- / body -->
+
+{% endblock %}
